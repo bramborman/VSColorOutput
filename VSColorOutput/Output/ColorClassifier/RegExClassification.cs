@@ -11,15 +11,15 @@ namespace VSColorOutput.Output.ColorClassifier
 
         public string RegExPattern
         {
-          get => _regExPattern;
-          set
-          {
-            ValidatePattern(value);
-            _regExPattern = value;
-          }
+            get => _regExPattern;
+            set
+            {
+                ValidatePattern(value);
+                _regExPattern = value;
+            }
         }
 
-    public ClassificationTypes ClassificationType { get; set; }
+        public ClassificationTypes ClassificationType { get; set; }
         public bool IgnoreCase { get; set; }
 
         public override string ToString()
@@ -35,8 +35,8 @@ namespace VSColorOutput.Output.ColorClassifier
         public static Regex RegExFactory(RegExClassification pattern)
         {
             return new Regex(
-                pattern.RegExPattern, 
-                pattern.IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None, 
+                pattern.RegExPattern,
+                pattern.IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None,
                 TimeSpan.FromMilliseconds(250));
         }
     }
