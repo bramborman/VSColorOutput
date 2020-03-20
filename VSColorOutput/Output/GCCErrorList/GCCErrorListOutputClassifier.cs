@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -86,7 +86,7 @@ namespace VSColorOutput.Output.GCCErrorList
             }
             catch (NullReferenceException)
             {
-                // eat it.    
+                // eat it.
                 return new List<ClassificationSpan>();
             }
             catch (Exception ex)
@@ -101,26 +101,18 @@ namespace VSColorOutput.Output.GCCErrorList
             var settings = Settings.Load();
             var patterns = settings.Patterns ?? Array.Empty<RegExClassification>();
 
-            var classifiers = patterns.Select(
-                    pattern => new
-                    {
-                        classificationType = pattern.ClassificationType.ToString(),
-                        test = RegExClassification.RegExFactory(pattern)
-                    })
-                .Select(temp => new Classifier
+            _classifiers = patterns.Select(
+                pattern => new Classifier
                 {
-                    Type = temp.classificationType,
-                    Test = temp.test.IsMatch
+                    Type = pattern.ClassificationType.ToString(),
+                    Test = RegExClassification.RegExFactory(pattern).IsMatch
+                })
+                .Append(new Classifier
+                {
+                    Type = ClassificationTypeDefinitions.BuildText,
+                    Test = t => true
                 })
                 .ToList();
-
-            classifiers.Add(new Classifier
-            {
-                Type = ClassificationTypeDefinitions.BuildText,
-                Test = t => true
-            });
-
-            _classifiers = classifiers;
         }
 
         protected virtual void OnClassificationChanged(ClassificationChangedEventArgs e)

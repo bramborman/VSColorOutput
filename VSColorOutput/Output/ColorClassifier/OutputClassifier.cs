@@ -90,26 +90,18 @@ namespace VSColorOutput.Output.ColorClassifier
             var settings = Settings.Load();
             var patterns = settings.Patterns ?? Array.Empty<RegExClassification>();
 
-            var classifiers = patterns.Select(
-                pattern => new
+            _classifiers = patterns.Select(
+                pattern => new Classifier
                 {
-                    classificationType = pattern.ClassificationType.ToString(),
-                    test = RegExClassification.RegExFactory(pattern)
+                    Type = pattern.ClassificationType.ToString(),
+                    Test = RegExClassification.RegExFactory(pattern).IsMatch
                 })
-                .Select(temp => new Classifier
+                .Append(new Classifier
                 {
-                    Type = temp.classificationType,
-                    Test = text => temp.test.IsMatch(text)
+                    Type = ClassificationTypeDefinitions.BuildText,
+                    Test = t => true
                 })
                 .ToList();
-
-            classifiers.Add(new Classifier
-            {
-                Type = ClassificationTypeDefinitions.BuildText,
-                Test = t => true
-            });
-
-            _classifiers = classifiers;
         }
 
         private void UpdateFormatMap()
