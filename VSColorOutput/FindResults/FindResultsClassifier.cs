@@ -65,8 +65,8 @@ namespace VSColorOutput.FindResults
 
             var text = span.GetText();
 
-            var filenameSpans = GetMatches(text, FilenameRegex, span.Start, FilenameClassificationType).ToList();
-            var searchTermSpans = GetMatches(text, _searchTextRegex, span.Start, SearchTermClassificationType).ToList();
+            var filenameSpans = GetMatches(text, FilenameRegex, span.Start, FilenameClassificationType);
+            var searchTermSpans = GetMatches(text, _searchTextRegex, span.Start, SearchTermClassificationType);
 
             var toRemove = (from searchSpan in searchTermSpans
                 from filenameSpan in filenameSpans
@@ -146,10 +146,16 @@ namespace VSColorOutput.FindResults
             _settingsLoaded = true;
         }
 
-        private static IEnumerable<ClassificationSpan> GetMatches(string text, Regex regex, SnapshotPoint snapStart, IClassificationType classificationType)
+        private static ClassificationSpan[] GetMatches(string text, Regex regex, SnapshotPoint snapStart, IClassificationType classificationType)
         {
-            return from match in regex.Matches(text).Cast<Match>()
-                select new ClassificationSpan(new SnapshotSpan(snapStart + match.Index, match.Length), classificationType);
+            var matches = regex.Matches(text);
+            var output = new ClassificationSpan[matches.Count];
+            for (int i = 0; i < matches.Count; i++)
+            {
+                var match = matches[i];
+                output[i] = new ClassificationSpan(new SnapshotSpan(snapStart + match.Index, match.Length), classificationType);
+            }
+            return output;
         }
 
         private IClassificationType SearchTermClassificationType => _classificationRegistry.GetClassificationType(ClassificationTypeDefinitions.FindResultsSearchTerm);
