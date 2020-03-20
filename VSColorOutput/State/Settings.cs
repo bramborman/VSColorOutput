@@ -74,10 +74,10 @@ namespace VSColorOutput.State
         public Color TimeStampColor { get; set; } = Color.CornflowerBlue;
 
         [DataMember(Order = 20)]
-        public String TimeStampElapsed { get; set; } = DefaultTimeStampFormat;
+        public string TimeStampElapsed { get; set; } = DefaultTimeStampFormat;
 
         [DataMember(Order = 21)]
-        public String TimeStampDifference { get; set; } = DefaultTimeStampFormat;
+        public string TimeStampDifference { get; set; } = DefaultTimeStampFormat;
 
         private static readonly string ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VSColorOutput");
         private static readonly string SettingsFile = Path.Combine(ProgramDataFolder, "vscoloroutput.json");
