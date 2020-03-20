@@ -67,10 +67,10 @@ namespace VSColorOutput.FindResults
             var filenameSpans = GetMatches(text, FilenameRegex, span.Start, FilenameClassificationType);
             var searchTermSpans = GetMatches(text, _searchTextRegex, span.Start, SearchTermClassificationType);
 
-            var toRemove = (from searchSpan in searchTermSpans
+            var toRemove = from searchSpan in searchTermSpans
                 from filenameSpan in filenameSpans
                 where filenameSpan.Span.Contains(searchSpan.Span)
-                select searchSpan).ToList();
+                select searchSpan;
 
             var classifications = new List<ClassificationSpan>(filenameSpans);
             classifications.AddRange(searchTermSpans.Except(toRemove));
