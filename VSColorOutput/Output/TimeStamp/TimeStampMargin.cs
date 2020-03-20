@@ -81,8 +81,6 @@ namespace VSColorOutput.Output.TimeStamp
 
         private void TextBufferOnChanged(object sender, TextContentChangedEventArgs ea)
         {
-            Func<int, DateTime, IEnumerable<DateTime>> fill = (count, time) => Enumerable.Range(0, count).Select(t => time);
-
             foreach (var textChange in ea.Changes)
             {
                 var lineNumber = ea.Before.GetLineFromPosition(textChange.OldPosition).LineNumber;
@@ -92,7 +90,7 @@ namespace VSColorOutput.Output.TimeStamp
                     var count = _lineTimeStamps.Count;
                     _lineTimeStamps.InsertRange(
                         Math.Min(lineNumber, count),
-                        fill(textChange.LineCountDelta + lineNumber - count, DateTime.Now));
+                        Enumerable.Repeat(DateTime.Now, textChange.LineCountDelta + lineNumber - count));
                 }
                 else if (textChange.LineCountDelta < 0)
                 {
