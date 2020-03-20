@@ -51,7 +51,7 @@ namespace VSColorOutput.Output.ColorClassifier
                 if (snapshot == null || snapshot.Length == 0) return spans;
                 if (_classifiers == null) UpdateClassifiers();
 
-                var classifiers = _classifiers ?? new List<Classifier>();
+                var classifiers = _classifiers ?? Array.Empty<Classifier>();
                 var start = span.Start.GetContainingLine().LineNumber;
                 var end = (span.End - 1).GetContainingLine().LineNumber;
                 for (var i = start; i <= end; i++)
@@ -71,12 +71,12 @@ namespace VSColorOutput.Output.ColorClassifier
             catch (RegexMatchTimeoutException)
             {
                 // eat it.
-                return new List<ClassificationSpan>();
+                return Array.Empty<ClassificationSpan>();
             }
             catch (NullReferenceException)
             {
                 // eat it.
-                return new List<ClassificationSpan>();
+                return Array.Empty<ClassificationSpan>();
             }
             catch (Exception ex)
             {
