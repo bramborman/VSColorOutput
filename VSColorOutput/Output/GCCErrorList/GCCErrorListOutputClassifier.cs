@@ -37,14 +37,14 @@ namespace VSColorOutput.Output.GCCErrorList
         {
             try
             {
-                var spans = new List<ClassificationSpan>();
                 var snapshot = span.Snapshot;
-                if (snapshot == null || snapshot.Length == 0) return spans;
+                if (snapshot == null || snapshot.Length == 0) return Array.Empty<ClassificationSpan>();
                 if (_classifiers == null) UpdateClassifiers();
 
                 var classifiers = _classifiers ?? Array.Empty<Classifier>();
                 var start = span.Start.GetContainingLine().LineNumber;
                 var end = (span.End - 1).GetContainingLine().LineNumber;
+                var spans = new List<ClassificationSpan>();
                 for (var i = start; i <= end; i++)
                 {
                     var line = snapshot.GetLineFromLineNumber(i);

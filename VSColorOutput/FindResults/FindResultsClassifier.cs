@@ -55,12 +55,11 @@ namespace VSColorOutput.FindResults
         public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
         {
             LoadSettings();
-            var classifications = new List<ClassificationSpan>();
 
             var snapshot = span.Snapshot;
             if (snapshot == null || snapshot.Length == 0 || !CanSearch(span) || !HighlightFindResults)
             {
-                return classifications;
+                return Array.Empty<ClassificationSpan>();
             }
 
             var text = span.GetText();
@@ -73,7 +72,7 @@ namespace VSColorOutput.FindResults
                 where filenameSpan.Span.Contains(searchSpan.Span)
                 select searchSpan).ToList();
 
-            classifications.AddRange(filenameSpans);
+            var classifications = new List<ClassificationSpan>(filenameSpans);
             classifications.AddRange(searchTermSpans.Except(toRemove));
             return classifications;
         }
