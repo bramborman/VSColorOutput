@@ -88,8 +88,7 @@ namespace VSColorOutput.FindResults
             var firstLine = span.Snapshot.GetLineFromLineNumber(0).GetText();
             if (firstLine.StartsWith(FindAll))
             {
-                var strings = (from s in firstLine.Split(',')
-                    select s.Trim()).ToList();
+                var strings = Array.ConvertAll(firstLine.Split(','), s => s.Trim());
 
                 var start = strings[0].IndexOf('"');
                 var length = strings[0].Length - start - 2;
