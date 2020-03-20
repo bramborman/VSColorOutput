@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -99,7 +99,7 @@ namespace VSColorOutput.Output.GCCErrorList
         private void UpdateClassifiers()
         {
             var settings = Settings.Load();
-            var patterns = settings.Patterns ?? new RegExClassification[0];
+            var patterns = settings.Patterns ?? Array.Empty<RegExClassification>();
 
             var classifiers = patterns.Select(
                     pattern => new

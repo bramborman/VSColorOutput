@@ -88,7 +88,7 @@ namespace VSColorOutput.Output.ColorClassifier
         private void UpdateClassifiers()
         {
             var settings = Settings.Load();
-            var patterns = settings.Patterns ?? new RegExClassification[0];
+            var patterns = settings.Patterns ?? Array.Empty<RegExClassification>();
 
             var classifiers = patterns.Select(
                 pattern => new
