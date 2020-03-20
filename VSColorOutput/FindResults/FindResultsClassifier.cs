@@ -24,13 +24,11 @@ namespace VSColorOutput.FindResults
         private bool _settingsLoaded;
         private IClassificationTypeRegistryService _classificationRegistry;
         private IClassificationFormatMapService _formatMapService;
-        private static readonly Regex FilenameRegex;
+        private static readonly Regex FilenameRegex = new Regex(@"^\s*.[:\\]\\.*\(\d+\):", RegexOptions.Compiled);
 
         private Regex _searchTextRegex;
 
         public bool HighlightFindResults { get; set; }
-
-        static FindResultsClassifier() => FilenameRegex = new Regex(@"^\s*.[:\\]\\.*\(\d+\):", RegexOptions.Compiled);
 
         public void Initialize(IClassificationTypeRegistryService classificationRegistry, IClassificationFormatMapService formatMapService)
         {

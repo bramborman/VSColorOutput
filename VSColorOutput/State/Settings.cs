@@ -79,18 +79,12 @@ namespace VSColorOutput.State
         [DataMember(Order = 21)]
         public String TimeStampDifference { get; set; } = DefaultTimeStampFormat;
 
-        private static readonly string ProgramDataFolder;
-        private static readonly string SettingsFile;
+        private static readonly string ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VSColorOutput");
+        private static readonly string SettingsFile = Path.Combine(ProgramDataFolder, "vscoloroutput.json");
 
         public static event EventHandler SettingsUpdated;
 
         private static void OnSettingsUpdated(object sender, EventArgs ea) => SettingsUpdated?.Invoke(sender, ea);
-
-        static Settings()
-        {
-            ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VSColorOutput");
-            SettingsFile = Path.Combine(ProgramDataFolder, "vscoloroutput.json");
-        }
 
         public static Settings Load()
         {
