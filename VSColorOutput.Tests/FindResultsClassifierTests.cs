@@ -371,7 +371,7 @@ namespace Tests
             if (filterByFiles)
                 strings.Add(ResultsFileTypes);
 
-            return string.Join(", ", strings.ToArray());
+            return string.Join(", ", strings);
         }
 
         private static string BuildResultsLines(string firstLine, params string[] lines)
