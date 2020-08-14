@@ -28,6 +28,7 @@ namespace VSColorOutput.Output.ColorClassifier
             {
                 _classificationTypeRegistry = registry;
                 _formatMapService = formatMapService;
+                UpdateClassifiers();
 
                 Settings.SettingsUpdated += (sender, args) =>
                 {
@@ -48,7 +49,6 @@ namespace VSColorOutput.Output.ColorClassifier
             {
                 var snapshot = span.Snapshot;
                 if (snapshot == null || snapshot.Length == 0) return Array.Empty<ClassificationSpan>();
-                if (_classifiers == null) UpdateClassifiers();
 
                 var classifiers = _classifiers ?? Array.Empty<Classifier>();
                 var start = span.Start.GetContainingLine().LineNumber;

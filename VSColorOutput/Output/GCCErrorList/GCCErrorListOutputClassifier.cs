@@ -21,6 +21,8 @@ namespace VSColorOutput.Output.GCCErrorList
             if (Interlocked.CompareExchange(ref _initialized, 1, 0) == 1) return;
             try
             {
+                UpdateClassifiers();
+
                 Settings.SettingsUpdated += (sender, args) =>
                 {
                     UpdateClassifiers();
@@ -39,7 +41,6 @@ namespace VSColorOutput.Output.GCCErrorList
             {
                 var snapshot = span.Snapshot;
                 if (snapshot == null || snapshot.Length == 0) return Array.Empty<ClassificationSpan>();
-                if (_classifiers == null) UpdateClassifiers();
 
                 var classifiers = _classifiers ?? Array.Empty<Classifier>();
                 var start = span.Start.GetContainingLine().LineNumber;
